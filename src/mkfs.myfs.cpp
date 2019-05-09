@@ -16,12 +16,21 @@ int main(int argNum, char *argArray[]) {
         fprintf(stderr, "error: too few arguments");
         fprintf(stderr, "usage: mkfs.myfs containerfile [<file-to-copy>, ...]");
     }
+
+    if (argNum > 66) {
+        fprintf(stderr, "error: too many arguments! 64 files max");
+        fprintf(stderr, "usage: mkfs.myfs containerfile [<file-to-copy>, ...]");
+    }
+
     //TODO: container darf nicht existieren
-    //TODO: einzelne file names überprüfen in Argumenten, ob doppelt
-    //TODO: files existieren -> probeweise öffnen?
-    //TODO: ob file names zu lang
-    //TODO: Größe gesamt < 30MB
-    //TODO: max files 64 (max args 66)
+
+    //Zusammenfassen?
+    //TODO: einzelne file names überprüfen in Argumenten, ob doppelt -> Melli
+    //TODO: ob file names zu lang -> truncate()-Funktion: abschneiden nach letztem slash -> Melli
+
+    //TODO: files existieren -> probeweise öffnen? -> Robin
+
+    //TODO: Größe gesamt < 30MB -> Leo
     // -> copy
 
 
