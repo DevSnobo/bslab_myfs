@@ -46,6 +46,7 @@ MyFS* MyFS::Instance() {
 
 MyFS::MyFS() {
     this->logFile= stderr;
+    this->openFiles = 0;
 }
 
 MyFS::~MyFS() {
