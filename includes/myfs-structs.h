@@ -8,7 +8,7 @@
 
 #ifndef myfs_structs_h
 #define myfs_structs_h
-
+#include <stdint.h>
 #define NAME_LENGTH 255
 #define BLOCK_SIZE 512
 #define NUM_DIR_ENTRIES 64
@@ -29,7 +29,9 @@
 #define START_DATA (SIZE_ROOT + START_ROOT)  // 320
 
 struct SuperBlock {
-    uint16_t size; // TODO: welche size?
+    uint16_t size_fs = SIZE_SUPER + SIZE_DMAP + SIZE_FAT + SIZE_ROOT + SIZE_DATA;
+    uint8_t blocksize = BLOCK_SIZE;
+    uint16_t size_data = SIZE_DATA;
     uint8_t posSuper = START_SUPER;
     uint8_t posDmap = START_DMAP;
     uint8_t posFat = START_FAT;

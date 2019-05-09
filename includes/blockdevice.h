@@ -11,6 +11,8 @@
 #ifndef blockdevice_h
 #define blockdevice_h
 
+#include <stdint.h>
+#include <sys/types.h>
 #include <stdio.h>
 #include <cstdint>
 
