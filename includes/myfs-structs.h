@@ -8,7 +8,9 @@
 
 #ifndef myfs_structs_h
 #define myfs_structs_h
+
 #include <stdint.h>
+
 #define NAME_LENGTH 255
 #define BLOCK_SIZE 512
 #define NUM_DIR_ENTRIES 64
@@ -30,69 +32,75 @@
 
 class SuperBlock {
 
-    private:
-        uint16_t size_fs = SIZE_SUPER + SIZE_DMAP + SIZE_FAT + SIZE_ROOT + SIZE_DATA;
-        uint8_t blocksize = BLOCK_SIZE;
-        uint8_t posSuper = START_SUPER;
-        uint8_t sizeSuper = SIZE_SUPER;
-        uint8_t posDmap = START_DMAP;
-        uint8_t sizeDmap = SIZE_DMAP;
-        uint8_t posFat = START_FAT;
-        uint8_t sizeFat = SIZE_FAT;
-        uint16_t posRoot = START_ROOT;
-        uint8_t sizeRoot = SIZE_ROOT;
-        uint16_t posData = START_DATA;
-        uint16_t size_data = SIZE_DATA;
-        uint8_t currFilesCount;
-        uint8_t currOpenFilesCount;
+private:
+    uint8_t blockSize = static_cast<uint8_t>(BLOCK_SIZE);
+    uint16_t sizeFs = SIZE_SUPER + SIZE_DMAP + SIZE_FAT + SIZE_ROOT + SIZE_DATA;
+    uint8_t sizeSuper = SIZE_SUPER;
+    uint8_t sizeDmap = SIZE_DMAP;
+    uint8_t sizeFat = SIZE_FAT;
+    uint8_t sizeRoot = SIZE_ROOT;
+    uint16_t size_data = SIZE_DATA;
 
-    public:
-        SuperBlock();
-        ~SuperBlock();
+    uint8_t posSuper = START_SUPER;
+    uint8_t posDmap = START_DMAP;
+    uint8_t posFat = START_FAT;
+    uint16_t posRoot = START_ROOT;
+    uint16_t posData = START_DATA;
+    uint8_t currFilesCount;
+    uint8_t currOpenFilesCount;
+
+public:
+    SuperBlock();
+
+    ~SuperBlock();
 
 };
 
 class Dmap {
-    private:
-        bool dmap[61440];
-    public:
-        Dmap();
-        ~Dmap();
+private:
+    bool dmap[61440];
+public:
+    Dmap();
+
+    ~Dmap();
 };
 
 class Fat {
-    private:
-        uint16_t fat[61140];
-    public:
-        Fat();
-        ~Fat();
+private:
+    uint16_t fat[61140];
+public:
+    Fat();
+
+    ~Fat();
 };
 
 class File {
-    private:
-        char *fileName;
-        uint16_t fileSize;
-        uint32_t userId;
-        uint32_t groupId;
-        uint16_t permissions;
-        // TODO: besseren Typ finden, byteArray ok?
-        uint16_t atime[8]; //letzer Zugriff
+private:
+    char *fileName;
+    uint16_t fileSize;
+    uint32_t userId;
+    uint32_t groupId;
+    uint16_t permissions;
+    // TODO: besseren Typ finden, byteArray ok?
+    uint16_t atime[8]; //letzer Zugriff
 
-        uint16_t mtime[8]; //letze Änderung
-        uint16_t ctime[8]; //letzte Statusänderung
-        uint16_t firstBlock;
-    public:
-        File();
-        ~File();
+    uint16_t mtime[8]; //letze Änderung
+    uint16_t ctime[8]; //letzte Statusänderung
+    uint16_t firstBlock;
+public:
+    File();
+
+    ~File();
 
 };
 
 class Root {
-    private:
-        File root[64];
-    public:
-        Root();
-        ~Root();
+private:
+    File root[64];
+public:
+    Root();
+
+    ~Root();
 };
 
 
