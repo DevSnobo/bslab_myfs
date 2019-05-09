@@ -1,14 +1,15 @@
 //
-//  myfs-structs.h
+//  myfs-classes.h
 //  myfs
 //
 //  Created by Oliver Waldhorst on 07.09.17.
 //  Copyright © 2017 Oliver Waldhorst. All rights reserved.
 //
 
-#ifndef myfs_structs_h
-#define myfs_structs_h
+#ifndef myfs_classes_h
+#define myfs_classes_h
 #include <stdint.h>
+#include "blockdevice.h"
 #define NAME_LENGTH 255
 #define BLOCK_SIZE 512
 #define NUM_DIR_ENTRIES 64
@@ -31,6 +32,7 @@
 class SuperBlock {
 
     private:
+        BlockDevice* blockDevice;
         uint16_t size_fs = SIZE_SUPER + SIZE_DMAP + SIZE_FAT + SIZE_ROOT + SIZE_DATA;
         uint8_t blocksize = BLOCK_SIZE;
         uint8_t posSuper = START_SUPER;
@@ -47,24 +49,26 @@ class SuperBlock {
         uint8_t currOpenFilesCount;
 
     public:
-        SuperBlock();
+        SuperBlock(BlockDevice* blockDevice); //Blockdevice wird wegen read()-Methode mitgegeben
         ~SuperBlock();
 
 };
 
 class Dmap {
     private:
+        BlockDevice* blockDevice;
         bool dmap[61440];
     public:
-        Dmap();
+        Dmap(BlockDevice* blockDevice);
         ~Dmap();
 };
 
 class Fat {
     private:
+        BlockDevice* blockDevice;
         uint16_t fat[61140];
     public:
-        Fat();
+        Fat(BlockDevice* blockDevice);
         ~Fat();
 };
 
@@ -89,11 +93,12 @@ class File {
 
 class Root {
     private:
+        BlockDevice* blockDevice;
         File root[64];
     public:
-        Root();
+        Root(BlockDevice* blockDevice);
         ~Root();
 };
 
 
-#endif /* myfs_structs_h */
+#endif /* myfs_classes_h */

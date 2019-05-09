@@ -13,7 +13,7 @@
 #include <cmath>
 
 #include "blockdevice.h"
-#include "myfs-structs.h"
+#include "myfs-classes.h"
 
 class MyFS {
 private:
