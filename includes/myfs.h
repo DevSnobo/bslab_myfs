@@ -19,6 +19,8 @@ class MyFS {
 private:
     static MyFS *_instance;
     FILE *logFile;
+
+    uint8_t openFiles;
     
 public:
     static MyFS *Instance();
