@@ -9,6 +9,9 @@
 #include "myfs.h"
 #include "blockdevice.h"
 #include "macros.h"
+#include <fstream>
+
+int getFileSize(char* &fileName);
 
 int main(int argNum, char *argArray[]) {
 
@@ -32,13 +35,31 @@ int main(int argNum, char *argArray[]) {
 
     //TODO: Größe gesamt < 30MB -> Leo
     // -> copy
-
-
-
-
+    int totalSize;
+    for (int i = 2; i < argNum; i++) {
+        totalSize += getFileSize(argArray[i]);
+    }
+    if (totalSize > (30 * 1024 * 1024)) {
+        fprintf(stderr, "error: input files exceed 30MB");
+    }
 
 
     // TODO: Implement file system generation & copying of files here
     
     return 0;
+}
+
+int getFileSize(char* &fileName) {
+    std::ifstream file(fileName, std::ifstream::in | std::ifstream::binary);
+
+    if(!file.is_open()) {
+        fprintf(stderr, "error: %s could not be opened or does not exist", fileName);
+        return -1;
+    }
+
+    file.seekg(0, std::ios::end);
+    int fileSize = file.tellg();
+    file.close();
+
+    return fileSize;
 }
