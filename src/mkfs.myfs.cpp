@@ -32,7 +32,7 @@ int main(int argNum, const char *argArray[]) {
         if (strcmp(*(argArray + i), *(argArray + i + 1)) == 0) {
             fprintf(stderr, "error: two args equal");
         }
-        if (strlen(MyFS::getFileName(*(argArray + i))) > 255) {
+        if (strlen(instance.getFileName(*(argArray + i))) > 255) {
             fprintf(stderr, "error: filename too long!");
         }
     }
