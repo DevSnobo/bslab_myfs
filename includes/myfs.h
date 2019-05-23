@@ -9,8 +9,11 @@
 #ifndef myfs_h
 #define myfs_h
 
+#include <stdint.h>
 #include <fuse.h>
 #include <cmath>
+#include <string.h>
+
 
 #include "blockdevice.h"
 #include "myfs-classes.h"
@@ -71,7 +74,9 @@ public:
     void fuseDestroy();
     
     // TODO: Add methods of your file system here
-    
+
+    const char* getFileName(const char* path);
+
 };
 
 #endif /* myfs_h */

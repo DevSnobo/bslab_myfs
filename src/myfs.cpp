@@ -332,4 +332,23 @@ int MyFS::fuseGetxattr(const char *path, const char *name, char *value, size_t s
         
 // TODO: Add your own additional methods here!
             
+const char* MyFS::getFileName(const char* path) {
+    size_t len = strlen(path);
+    char* pathCpy = (char*) path;
+    char* lastSlash = (char*) path;
+    size_t nameLen = 0;
+    for (size_t i = len; i > 0; i--) {
+        nameLen++;
+        if (*path == '/') {
+            lastSlash = (char*) path;
+            break;
+        }
+        pathCpy--;
+    }
+    char* fileName = (char*) malloc(nameLen);
+    return strncpy(fileName, path + 1, nameLen);
+
+
+}
+}
 

@@ -14,7 +14,9 @@
 int fileExists(char* &fileName);
 int getFileSize(char* &fileName);
 
-int main(int argNum, char *argArray[]) {
+int main(int argNum, const char *argArray[]) {
+
+    MyFS instance = MyFS();
 
     if (argNum < 2) {
         fprintf(stderr, "error: too few arguments");
@@ -25,6 +27,16 @@ int main(int argNum, char *argArray[]) {
         fprintf(stderr, "error: too many arguments! 64 files max");
         fprintf(stderr, "usage: mkfs.myfs containerfile [<file-to-copy>, ...]");
     }
+
+    for (int i = 2; i < argNum - 1; i++) {
+        if (strcmp(*(argArray + i), *(argArray + i + 1)) == 0) {
+            fprintf(stderr, "error: two args equal");
+        }
+        if (strlen(MyFS::getFileName(*(argArray + i))) > 255) {
+            fprintf(stderr, "error: filename too long!");
+        }
+    }
+
 
     //TODO: container darf nicht existieren
 
