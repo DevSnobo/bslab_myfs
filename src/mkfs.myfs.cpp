@@ -5,7 +5,8 @@
 //  Created by Oliver Waldhorst on 07.09.17.
 //  Copyright © 2017 Oliver Waldhorst. All rights reserved.
 //
-
+#include <string.h>
+#include <stdint.h>
 #include "myfs.h"
 #include "blockdevice.h"
 #include "macros.h"
@@ -31,8 +32,8 @@ int main(int argNum, const char *argArray[]) {
     }
 
     for (int i = 2; i < argNum - 1; i++) {
-        if (strcmp(*(argArray + i), *(argArray + i + 1)) == 0) {
-            fprintf(stderr, "error: duplicate files are not allowed");
+        if (strcmp(instance->getFileName(*(argArray + i)), instance->getFileName(*(argArray + i + 1))) == 0) {
+            fprintf(stderr, "error: duplicate files are not allowed\n");
             return -1;
         }
         if (strlen(instance->getFileName(*(argArray + i))) > 255) {
