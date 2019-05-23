@@ -34,7 +34,9 @@ int main(int argNum, char *argArray[]) {
 
     //TODO: files existieren -> probeweise öffnen? -> Robin
     for (int i = 2; i < argNum; i++) {
-        fileExists(argArray[i]);
+        if (fileExists(argArray[i]) < 0) {
+            return -1;
+        }
     }
 
 
@@ -62,6 +64,7 @@ int fileExists(char* &fileName) {
         return -1;
     }
     file.close();
+    return 0;
 }
 
 int getFileSize(char* &fileName) {
