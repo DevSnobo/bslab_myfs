@@ -11,6 +11,7 @@
 #include "macros.h"
 #include <fstream>
 
+int fileExists(char* &fileName);
 int getFileSize(char* &fileName);
 
 int main(int argNum, char *argArray[]) {
@@ -32,10 +33,14 @@ int main(int argNum, char *argArray[]) {
     //TODO: ob file names zu lang -> truncate()-Funktion: abschneiden nach letztem slash -> Melli
 
     //TODO: files existieren -> probeweise öffnen? -> Robin
+    for (int i = 2; i < argNum; i++) {
+        fileExists(argArray[i]);
+    }
+
 
     //TODO: Größe gesamt < 30MB -> Leo
     // -> copy
-    int totalSize;
+    int totalSize = 0;
     for (int i = 2; i < argNum; i++) {
         totalSize += getFileSize(argArray[i]);
     }
@@ -47,6 +52,16 @@ int main(int argNum, char *argArray[]) {
     // TODO: Implement file system generation & copying of files here
     
     return 0;
+}
+
+int fileExists(char* &fileName) {
+    std::ifstream file(fileName, std::ifstream::in | std::ifstream::binary);
+
+    if(!file.is_open()) {
+        fprintf(stderr, "error: %s could not be opened or does not exist", fileName);
+        return -1;
+    }
+    file.close();
 }
 
 int getFileSize(char* &fileName) {
