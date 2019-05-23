@@ -11,29 +11,33 @@
 #include "macros.h"
 #include <fstream>
 
-int fileExists(char* &fileName);
-int getFileSize(char* &fileName);
+int fileExists(const char* fileName);
+int getFileSize(const char* &fileName);
 
 int main(int argNum, const char *argArray[]) {
 
-    MyFS instance = MyFS();
+    MyFS* instance = new MyFS();
 
     if (argNum < 2) {
         fprintf(stderr, "error: too few arguments");
         fprintf(stderr, "usage: mkfs.myfs containerfile [<file-to-copy>, ...]");
+        return -1;
     }
 
     if (argNum > 66) {
         fprintf(stderr, "error: too many arguments! 64 files max");
         fprintf(stderr, "usage: mkfs.myfs containerfile [<file-to-copy>, ...]");
+        return -1;
     }
 
     for (int i = 2; i < argNum - 1; i++) {
         if (strcmp(*(argArray + i), *(argArray + i + 1)) == 0) {
-            fprintf(stderr, "error: two args equal");
+            fprintf(stderr, "error: duplicate files are not allowed");
+            return -1;
         }
-        if (strlen(instance.getFileName(*(argArray + i))) > 255) {
+        if (strlen(instance->getFileName(*(argArray + i))) > 255) {
             fprintf(stderr, "error: filename too long!");
+            return -1;
         }
     }
 
@@ -62,13 +66,14 @@ int main(int argNum, const char *argArray[]) {
         fprintf(stderr, "error: input files exceed 30MB");
     }
 
+    printf("%s", "success");
 
     // TODO: Implement file system generation & copying of files here
     
     return 0;
 }
 
-int fileExists(char* &fileName) {
+int fileExists(const char* fileName) {
     std::ifstream file(fileName, std::ifstream::in | std::ifstream::binary);
 
     if(!file.is_open()) {
@@ -79,7 +84,7 @@ int fileExists(char* &fileName) {
     return 0;
 }
 
-int getFileSize(char* &fileName) {
+int getFileSize(const char* &fileName) {
     std::ifstream file(fileName, std::ifstream::in | std::ifstream::binary);
 
     if(!file.is_open()) {
