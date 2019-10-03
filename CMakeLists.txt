@@ -9,8 +9,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(MKFS
+        src/myfs-classes.cpp
+        src/myfs.cpp
         src/mkfs.myfs.cpp
-        src/blockdevice.cpp)
+        src/blockdevice.cpp
+        src/abstractblockdevice.cpp)
 
 set(MOUNT
         src/blockdevice.cpp

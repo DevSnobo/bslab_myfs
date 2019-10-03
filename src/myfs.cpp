@@ -35,6 +35,8 @@
 #include "myfs.h"
 #include "myfs-info.h"
 
+
+
 MyFS* MyFS::_instance = NULL;
 
 MyFS* MyFS::Instance() {
@@ -305,8 +307,9 @@ void* MyFS::fuseInit(struct fuse_conn_info *conn) {
         
         // you can get the containfer file name here:
         LOGF("Container file name: %s", ((MyFsInfo *) fuse_get_context()->private_data)->contFile);
-        
-        // TODO: Implement your initialization methods here!
+
+        SuperBlock superblock = new SuperBlock()
+        abs_blockdevice = new AbstractBlockDevice(blockdevice, 512);
     }
     
     RETURN(0);

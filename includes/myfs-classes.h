@@ -9,7 +9,7 @@
 #ifndef myfs_classes_h
 #define myfs_classes_h
 #include <stdint.h>
-#include "blockdevice.h"
+#include "abstractblockdevice.h"
 #define NAME_LENGTH 255
 #define BLOCK_SIZE 512
 #define NUM_DIR_ENTRIES 64
@@ -29,9 +29,20 @@
 #define START_ROOT (SIZE_FAT + START_FAT)  // 256
 #define START_DATA (SIZE_ROOT + START_ROOT)  // 320
 
+#define MAGICNUMBER 0xBADCODED
+
+enum class Initialization {
+    DEFAULT_INIT,
+    DEVICE_INIT
+};
+
 class SuperBlock {
 
 private:
+    struct {
+        uint32_t magicnumber;
+    } persistable_items;
+    AbstractBlockDevice* blockdevice;
     uint16_t blockSize = BLOCK_SIZE;
     uint16_t sizeFs = SIZE_SUPER + SIZE_DMAP + SIZE_FAT + SIZE_ROOT + SIZE_DATA;
     uint8_t sizeSuper = SIZE_SUPER;
@@ -49,27 +60,26 @@ private:
     uint8_t currOpenFilesCount;
 
     public:
-        SuperBlock(BlockDevice* blockDevice); //Blockdevice wird wegen read()-Methode mitgegeben
-        ~SuperBlock();
+        SuperBlock(AbstractBlockDevice* blockdevice); //Blockdevice wird wegen read()-Methode mitgegeben
 
 
 };
 
 class Dmap {
     private:
-        BlockDevice* blockDevice;
-        bool dmap[61440];
+        AbstractBlockDevice* blockDevice;
+        uint8_t* dmap; //15 blöcke dmap * 512 byte pro Block -> bitmap
     public:
-        Dmap(BlockDevice* blockDevice);
+        Dmap(AbstractBlockDevice* blockDevice);
         ~Dmap();
 };
 
 class Fat {
     private:
-        BlockDevice* blockDevice;
+        AbstractBlockDevice* blockDevice;
         uint16_t fat[61140];
     public:
-        Fat(BlockDevice* blockDevice);
+        Fat(AbstractBlockDevice* blockDevice);
         ~Fat();
 };
 
@@ -93,10 +103,10 @@ public:
 
 class Root {
     private:
-        BlockDevice* blockDevice;
+        AbstractBlockDevice* blockDevice;
         File root[64];
     public:
-        Root(BlockDevice* blockDevice);
+        Root(AbstractBlockDevice* blockDevice);
         ~Root();
 };
 

@@ -27,7 +27,8 @@ private:
     
 public:
     static MyFS *Instance();
-    
+
+    AbstractBlockDevice* abs_blockdevice = nullptr;
     // TODO: Add attributes of your file system here
     
     MyFS();

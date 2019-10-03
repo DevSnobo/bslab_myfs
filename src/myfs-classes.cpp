@@ -3,8 +3,8 @@
 //
 #include "myfs-classes.h"
 
-SuperBlock::SuperBlock(BlockDevice *blockDevice) {
-    this->blockDevice = blockDevice;
+SuperBlock::SuperBlock(AbstractBlockDevice *blockdevice) {
+    this->blockdevice = blockdevice;
     //TODO
 }
 
@@ -12,16 +12,17 @@ SuperBlock::~SuperBlock() {
     free(this->superblock);
 }
 
-Dmap::Dmap(BlockDevice *blockDevice) {
+Dmap::Dmap(AbstractBlockDevice *blockDevice) {
     this->blockDevice = blockDevice;
+    dmap = new uint8_t[7680];
     //TODO
 }
 
 Dmap::~Dmap() {
-    free(this->dmap);
+    delete[] dmap;
 }
 
-Fat::Fat(BlockDevice *blockDevice) {
+Fat::Fat(AbstractBlockDevice *blockDevice) {
     this->blockDevice = blockDevice;
     //TODO
 }
@@ -38,7 +39,7 @@ File::~File() {
     //TODO
 }
 
-Root::Root(BlockDevice *blockDevice) {
+Root::Root(AbstractBlockDevice *blockDevice) {
     this->blockDevice = blockDevice;
     //TODO
 }
